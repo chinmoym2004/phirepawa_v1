@@ -48,6 +48,7 @@ class FaqController extends BaseController {
 		$faq=DB::table('faq')
 		->join('users','users.id','=','faq.uid')
 		->select('*','faq.id as postid')
+		->orderBy('faq.updated_at','DESC')
 		->where('faq.verified','=',1)
 		->get();
 		$data=array(

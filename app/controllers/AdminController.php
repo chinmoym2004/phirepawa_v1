@@ -9,25 +9,31 @@ class AdminController extends BaseController {
 	{
 		if(Auth::check())
 		{
-		if(Auth::user()->usertype=='admin' || Auth::user()->usertype=='super'){
-			$noofpost=DB::table('blog')->join('users', 'users.id', '=', 'blog.uid')->select('*','blog.id as blogid','blog.created_at as postedon')->where('blog.verified','=',0)->get();
 
-			$nooffaq=DB::table('faq')->join('users', 'users.id', '=', 'faq.uid')->select('*','faq.id as faqid','faq.created_at as postedon')->where('faq.verified','=',0)->get();
+			if(Auth::user()->usertype=='admin' || Auth::user()->usertype=='super'){
 
-			$noofcomments=Comments::where('verified','=',0)->get();
+				$noofpost=DB::table('blog')->join('users', 'users.id', '=', 'blog.uid')->select('*','blog.id as blogid','blog.created_at as postedon')->where('blog.verified','=',0)->get();
 
-			$noofforumtopics=Forum::where('verified','=',0)->get();
+				$nooffaq=DB::table('faq')->join('users', 'users.id', '=', 'faq.uid')->select('*','faq.id as faqid','faq.created_at as postedon')->where('faq.verified','=',0)->get();
 
-			$noofuser=User::where('active','=',0)->count();
-			$data=array(
-				'noofpost' => $noofpost,
-				'nooffaq'=>$nooffaq ,
-				'noofcomments'=>$noofcomments,
-				'noofuser'=>$noofuser,
-				'noofforumtopics'=>$noofforumtopics
-			);
-			$this->layout->content = View::make('admin.home',$data);
-		}
+				$noofcomments=Comments::where('verified','=',0)->get();
+
+				$noofforumtopics=Forum::where('verified','=',0)->get();
+
+				$noofuser=User::where('active','=',0)->count();
+				$data=array(
+					'noofpost' => $noofpost,
+					'nooffaq'=>$nooffaq ,
+					'noofcomments'=>$noofcomments,
+					'noofuser'=>$noofuser,
+					'noofforumtopics'=>$noofforumtopics
+				);
+				$this->layout->content = View::make('admin.home',$data);
+			}
+			else
+			{
+				return Redirect::to('/')->with('message','Un-Authorized access');
+			}
 		}
 		else{
 			$this->layout->content = View::make('users.login');
@@ -59,12 +65,37 @@ class AdminController extends BaseController {
 		
 	}
 
+	public function getShowallcomment(){
+		if(Auth::check())
+		{
+			if(Auth::user()->usertype=='admin' || Auth::user()->usertype=='super')
+			{
+				$approvecomment=DB::table('comment')->join('users', 'users.id', '=', 'comment.doneby')->select('*','comment.id as commentid','comment.created_at as postedon')->where('comment.verified','=',1)->paginate(10);
+				$data=array(
+					'noofcommment'=>$approvecomment
+				);
+				$this->layout->content = View::make('admin.approvedcomment',$data);
+			}
+			else
+			{
+				return Redirect::to('error');
+			}
+		}
+		else
+		{
+			return Redirect::to('users/login');
+		}
+
+	}
+
+
+
 	public function getShowallpost(){
 		if(Auth::check())
 		{
 			if(Auth::user()->usertype=='admin' || Auth::user()->usertype=='super')
 			{
-				$approvedpost=DB::table('blog')->join('users', 'users.id', '=', 'blog.uid')->select('*','blog.id as blogid','blog.created_at as postedon')->where('blog.verified','=',1)->get();
+				$approvedpost=DB::table('blog')->join('users', 'users.id', '=', 'blog.uid')->select('*','blog.id as blogid','blog.created_at as postedon')->where('blog.verified','=',1)->paginate(10);
 				$data=array(
 					'noofpost'=>$approvedpost
 				);
@@ -90,7 +121,7 @@ class AdminController extends BaseController {
 				$newpost=DB::table('blog')
 				->join('users', 'users.id', '=', 'blog.uid')
 				->select('*','blog.id as blogid','blog.created_at as postedon')
-				->where('blog.verified','=',0)->get();
+				->where('blog.verified','=',0)->paginate(10);
 				$data=array(
 					'noofpost'=>$newpost
 				);
@@ -117,7 +148,7 @@ class AdminController extends BaseController {
 				$newfaq=DB::table('faq')
 				->join('users', 'users.id', '=', 'faq.uid')
 				->select('*','faq.id as faqid','faq.created_at as postedon')
-				->where('faq.verified','=',0)->get();
+				->where('faq.verified','=',0)->paginate(10);
 				$data=array(
 					'nooffaq'=>$newfaq
 				);
@@ -142,7 +173,7 @@ class AdminController extends BaseController {
 				$newfaq=DB::table('faq')
 				->join('users', 'users.id', '=', 'faq.uid')
 				->select('*','faq.id as faqid','faq.created_at as postedon')
-				->where('faq.verified','=',1)->get();
+				->where('faq.verified','=',1)->paginate(10);
 				$data=array(
 					'nooffaq'=>$newfaq
 				);
@@ -167,7 +198,7 @@ class AdminController extends BaseController {
 				$noofforum=DB::table('forum')
 				->join('users', 'users.id', '=', 'forum.uid')
 				->select('*','forum.id as forumid','forum.created_at as postedon')
-				->where('forum.verified','=',1)->get();
+				->where('forum.verified','=',1)->paginate(10);
 				$data=array(
 					'noofforum'=>$noofforum
 				);
@@ -192,7 +223,7 @@ class AdminController extends BaseController {
 				$noofforum=DB::table('forum')
 				->join('users', 'users.id', '=', 'forum.uid')
 				->select('*','forum.id as forumid','forum.created_at as postedon')
-				->where('forum.verified','=',0)->get();
+				->where('forum.verified','=',0)->paginate(10);
 				$data=array(
 					'noofforum'=>$noofforum
 				);
@@ -245,9 +276,6 @@ class AdminController extends BaseController {
 		}
 	}
 
-
-
-
 	public function postAdduser(){
 		if(Auth::check())
 		{
@@ -287,7 +315,7 @@ class AdminController extends BaseController {
 		{
 			if(Auth::user()->usertype=='admin'||Auth::user()->usertype=='super')
 			{
-				$getuser=User::where('usertype','=','admin')->orWhere('usertype','=','super')->paginate(1);
+				$getuser=User::where('usertype','=','admin')->orWhere('usertype','=','super')->paginate(5);
 				$data=array('getuser' => $getuser);
 				$this->layout->content=View::make('admin.listadmin',$data);
 			}
@@ -307,7 +335,7 @@ class AdminController extends BaseController {
 		{
 			if(Auth::user()->usertype=='admin'||Auth::user()->usertype=='super')
 			{
-				$getuser=User::where('usertype','=','common')->paginate(1);
+				$getuser=User::where('usertype','=','common')->paginate(10);
 				$data=array('getuser' => $getuser);
 				$this->layout->content=View::make('admin.listcommon',$data);
 			}
@@ -425,6 +453,7 @@ class AdminController extends BaseController {
 			return Redirect::to('users/login');
 		}
 	}
+
 	public function postUploadimage()
 	{
 		//$getPhotos=Gallery::orderpaginate(2);
@@ -434,35 +463,44 @@ class AdminController extends BaseController {
         {
 	        if(Auth::user()->usertype=='admin' || Auth::user()->usertype=='super')
 	        {
-	        	if (Input::hasFile('image'))
+	            $validator = Validator::make(Input::all(), Gallery::$rules);
+				if($validator->passes()) 
 				{
-					$destinationPath = public_path().'/galleryimage/';	
-		        
-			        if (!file_exists($destinationPath)) {
-					    mkdir($destinationPath, 0777, true);
-					}
-
-			        $ext = Input::file('image')->getClientOriginalExtension();//pathinfo($file[0], PATHINFO_EXTENSION);
-					$filename = uniqid("galleryimage_").'.'.$ext;
-			        $uploadSuccess   = Input::file('image')->move($destinationPath, $filename);
+		        	if (Input::hasFile('fname'))
+					{
+						$destinationPath = public_path().'/galleryimage/';	
 			        
-				    $FileDB = new Gallery();
-				    $FileDB->fname = $filename;
-				    $FileDB->event_date =Input::get('eventdate');
-				    $FileDB->filetitle = Input::get('title');
-				    $FileDB->description = Input::get('desc');
-				    //$FileDB->file_size = $getSize;
-				    $FileDB->uploadedBy = Auth::user()->id;
-				    $FileDB->save();
+				        if (!file_exists($destinationPath)) {
+						    mkdir($destinationPath, 0777, true);
+						}
 
-				    //return $FileDB->id;
+				        $ext = Input::file('fname')->getClientOriginalExtension();//pathinfo($file[0], PATHINFO_EXTENSION);
+						$filename = uniqid("galleryimage_").'.'.$ext;
+				        $uploadSuccess   = Input::file('fname')->move($destinationPath, $filename);
+				        
+					    $FileDB = new Gallery();
+					    $FileDB->fname = $filename;
+					    $FileDB->event_date =Input::get('eventdate');
+					    $FileDB->filetitle = Input::get('title');
+					    $FileDB->description = Input::get('desc');
+					    $FileDB->eyear = date('Y',strtotime(Input::get('eventdate')));
+					    //$FileDB->file_size = $getSize;
+					    $FileDB->uploadedBy = Auth::user()->id;
+					    $FileDB->save();
 
-					$this->layout->content=View::make('admin.uploadimage')->with('message','Successfully Uploaded !');
+					    //return $FileDB->id;
+
+						$this->layout->content=View::make('admin.uploadimage')->with('message','Successfully Uploaded !');
+					}
+					else
+					{
+						$this->layout->content=View::make('admin.uploadimage')->with('message','No file found !!');
+					}
 				}
-				else
-				{
-					$this->layout->content=View::make('admin.uploadimage')->with('message','No file found !!');
-				}
+				else 
+			   {
+				  return Redirect::to('admin/uploadimage')->with('message', 'The following errors occurred')->withErrors($validator)->withInput();
+			   }
 	        }
 	        else
 	        {
@@ -551,7 +589,7 @@ class AdminController extends BaseController {
 				$noofcomments=DB::table('comment')
 				->join('users', 'users.id', '=', 'comment.doneby')
 				->select('*','comment.id as commentid','comment.updated_at as postedon')
-				->where('comment.verified','=',0)->get();
+				->where('comment.verified','=',0)->paginate(10);
 				$data=array(
 					'noofcomments'=>$noofcomments
 				);
@@ -578,7 +616,7 @@ class AdminController extends BaseController {
 				$noofforum=DB::table('forum')
 				->join('users', 'users.id', '=', 'forum.uid')
 				->select('*','forum.id as forumid','forum.updated_at as postedon')
-				->where('forum.verified','=',0)->get();
+				->where('forum.verified','=',0)->paginate(10);
 				$data=array(
 					'noofforum'=>$noofforum
 				);
@@ -689,7 +727,7 @@ class AdminController extends BaseController {
 		if(Auth::user()){
 			if(Auth::user()->usertype=='admin' || Auth::user()->usertype=='super')
 			{
-				$noofuser=User::where('active','=',0)->get();
+				$noofuser=User::where('active','=',0)->paginate(10);
 				$data=array('noofuser'=>$noofuser);
 				$this->layout->content = View::make('admin.newuser',$data);	
 			}
@@ -703,8 +741,6 @@ class AdminController extends BaseController {
 			return Redirect::to('users/login')->with('message','login to coninue');
 		}
 	}
-
-
 	
 	public function postUserverify($id)
 	{
@@ -714,6 +750,26 @@ class AdminController extends BaseController {
 				$updateuser=User::find($id);
 				$updateuser->active=1;
 				$updateuser->save();
+				return 1;
+			}
+			else
+			{
+				return Redirect::to("/")->with('message','Un-Authorized Access');
+			}
+		}
+		else
+		{
+			return Redirect::to('users/login')->with('message','login to coninue');
+		}
+	}
+
+	public function postUserdelete($id)
+	{
+		if(Auth::user()){
+			if(Auth::user()->usertype=='admin' || Auth::user()->usertype=='super')
+			{
+				$updateuser=User::find($id);
+				$updateuser->delete();
 				return 1;
 			}
 			else
@@ -903,8 +959,8 @@ class AdminController extends BaseController {
 				$tmp='';
 				foreach($getlastyearpics as $val)
 				{
-		        	$tmp.='<a href="'.public_path().'/galleryimage/'.$val->fname.'" title="'.$val->filetitle.'" data-gallery>
-		            <img src="'.public_path().'/galleryimage/'.$val->fname.'" alt="'.$val->filetitle.'"></a>';
+		        	$tmp.='<a href="../galleryimage/'.$val->fname.'" title="'.$val->filetitle.'" data-gallery>
+		            <img src="../galleryimage'.$val->fname.'" alt="'.$val->filetitle.'"></a>';
 		    	}
 		    	return $tmp;
 		    }
@@ -1050,4 +1106,115 @@ class AdminController extends BaseController {
 			return Redirect::to('error');
 		}
 	}
+
+	public function postVerifyfaq($id)
+	{
+		if(Auth::check())
+		{
+			if(Auth::user()->type="admin"||Auth::user()->type="super")
+			{
+				$getComment=Faq::find($id);
+				$getComment->verified=1;
+				$getComment->save();
+				return "";
+				//return Redirect::to('admin/allnewlyfaq')->with('message','post has been successfully published !');
+			}
+			else
+			{
+				return Redirect::to('error');
+			}
+		}
+		else
+		{
+			return Redirect::to('users/login');
+		}
+	}
+
+
+	public function postDeletefaq($id)
+	{
+		if(Auth::check())
+		{
+			if(Auth::user()->type="admin"||Auth::user()->type="super")
+			{
+				$getComment=Faq::find($id);
+				$getComment->delete();
+				return "";
+			}
+			else
+			{
+				return Redirect::to('error');
+			}
+		}
+		else
+		{
+			return Redirect::to('users/login');
+		}
+	}
+
+	public function postVerifypost($id)
+	{
+		if(Auth::check())
+		{
+			if(Auth::user()->type="admin"||Auth::user()->type="super")
+			{
+				$getComment=Blog::find($id);
+				$getComment->verified=1;
+				$getComment->save();
+				return "";
+				//return Redirect::to('admin/allnewlyfaq')->with('message','post has been successfully published !');
+			}
+			else
+			{
+				return Redirect::to('error');
+			}
+		}
+		else
+		{
+			return Redirect::to('users/login');
+		}
+	}
+
+
+	public function postDeletepost($id)
+	{
+		if(Auth::check())
+		{
+			if(Auth::user()->type="admin"||Auth::user()->type="super")
+			{
+				$getComment=Blog::find($id);
+				$getComment->delete();
+				return "";
+			}
+			else
+			{
+				return Redirect::to('error');
+			}
+		}
+		else
+		{
+			return Redirect::to('users/login');
+		}
+	}
+	public function postDeleteevents($id)
+	{
+		if(Auth::check())
+		{
+			if(Auth::user()->type="admin"||Auth::user()->type="super")
+			{
+				$getComment=Events::find($id);
+				$getComment->delete();
+				return "";
+			}
+			else
+			{
+				return Redirect::to('error');
+			}
+		}
+		else
+		{
+			return Redirect::to('users/login');
+		}
+	}
+
 }

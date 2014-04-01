@@ -84,6 +84,7 @@
 <link  href="{{URL::asset('assets_files/js/datepicker/css/datepicker.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{URL::asset('assets_files/js/datepicker/js/bootstrap-datepicker.js')}}"></script>
 <script src="{{URL::asset('assets_files/js/prefixfree.js')}}"></script>
+<script src="{{ URL::asset('assets_files/js/alertify.js')}}"></script>
 
 
 <script type="text/javascript">

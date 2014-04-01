@@ -17,8 +17,8 @@
                 <td>{{$user->regno}}</td>
                 <td>{{$user->usertype}}</td>
                 <td>
-                  <a href="#" data-id="{{$user->faqid}}" title="Delete This Post" class="operation"><span class="glyphicon glyphicon-remove-circle"></span></a>
-                  <a href="#" data-id="{{$user->faqid}}" title="Mark as Verified" class="operation"><span class="glyphicon glyphicon-ok-circle"></span></a>
+                  <!-- <a href="#" data-id="{{$user->faqid}}" title="Delete This Post" class="operation"><span class="glyphicon glyphicon-remove-circle"></span></a>
+                  <a href="#" data-id="{{$user->faqid}}" title="Mark as Verified" class="operation"><span class="glyphicon glyphicon-ok-circle"></span></a> -->
                 </td>
               </tr>
             @endforeach

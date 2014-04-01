@@ -1,5 +1,6 @@
 <a href="{{url('admin/dashboard')}}" title="Go to Dahboard" class="operation pull-left"><span class="glyphicon glyphicon-chevron-left"></span></a><br>
-        <h4>Post not yet verified</h4>
+        @if(count($noofforum))
+        <h4>Forum not yet verified</h4>
         <div class="table-responsive">
           <table class="table">
             <tr>
@@ -22,3 +23,7 @@
             @endforeach
           </table>
         </div>
+        <?php echo $noofforum->links(); ?>
+        @else
+          <span>No new Forum topics available</span>
+        @endif

@@ -49,6 +49,7 @@ class ForumController extends BaseController {
 		$forum=DB::table('forum')
 		->join('users','users.id','=','forum.uid')
 		->select('*','forum.id as postid')
+		->orderBy('forum.updated_at','DESC')
 		->where('forum.verified','=',1)
 		->get();
 		$data=array(

@@ -49,6 +49,7 @@ class BlogController extends BaseController {
 		$blog=DB::table('blog')
 		->join('users','users.id','=','blog.uid')
 		->select('*','blog.id as postid')
+		->orderBy('blog.updated_at','DESC')
 		->where('blog.verified','=',1)
 		->get();
 		$data=array(

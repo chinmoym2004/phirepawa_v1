@@ -10,6 +10,7 @@
 	<link href="{{URL::asset('assets_files/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="{{URL::asset('assets_files/css/blueimp-gallery.min.css')}}">
 	<link href="{{URL::asset('assets_files/css/bootstrap-image-gallery.css')}}" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{{ URL::asset('assets_files/css/alertify.css')}}">
 	
 </head>
 <body>
@@ -37,7 +38,7 @@
 		         @else
 		         	<ul>
 		            <li>
-		            	<a href="{{url('myprofile')}}"><span>Welcome <b>{{Auth::user()->firstname}}</b></span>
+		            	<a href="{{url('admin')}}"><span>Welcome <b>{{Auth::user()->firstname}}</b></span>
 		            		</a>
 		            </li>
 		            <li>
@@ -117,12 +118,12 @@
 			        		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-comment"></i>&nbsp;&nbsp; Comments<b class="caret"></b></a>
 			              	<ul class="dropdown-menu">
 			                	<li class="">
-						        	<a href="{{url('admin/dashboard')}}">
+						        	<a href="{{url('admin/showallcomment')}}">
 						        		<i class="glyphicon glyphicon-dashboard"></i>&nbsp;&nbsp;Approved Content
 						        	</a>
 						        </li>
 				                <li class="">
-						        	<a href="{{url('admin/dashboard')}}">
+						        	<a href="{{url('admin/allnewlycomment')}}">
 						        		<i class="glyphicon glyphicon-dashboard"></i>&nbsp;&nbsp;Newly Arrievd
 						        	</a>
 						        </li>
@@ -149,4 +150,12 @@
 						<li><a href="{{url('admin/siteinfo')}}"><i class="glyphicon glyphicon-globe"></i>&nbsp;&nbsp;Siteinfo</a></li>
 			          </ul>
 			        </div><!--/.nav-collapse -->
+	</div>
+	<div class="container w-f">
+			@if(Session::has('message'))
+			    <div class="alert alert-warning alert-dismissable error-message">
+			        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+			        {{ Session::get('message') }}.
+			    </div>
+			@endif
 	</div>

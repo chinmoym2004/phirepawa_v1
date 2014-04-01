@@ -15,8 +15,8 @@
                 <td>Admin</td>
                 <td>{{$event->event_date}}</td>
                 <td>
-                  <a href="#" data-id="{{$event->id}}" title="Delete This Post" class="operation"><span class="glyphicon glyphicon-remove-circle"></span></a>
-                  <a href="#" data-id="{{$event->id}}" title="Mark as Verified" class="operation"><span class="glyphicon glyphicon-ok-circle"></span></a>
+                  <a href="#" data-id="{{$event->id}}" title="Delete This Post" class="operation deleteevents"><span class="glyphicon glyphicon-remove-circle"></span></a>
+                  
                 </td>
               </tr>
             @endforeach

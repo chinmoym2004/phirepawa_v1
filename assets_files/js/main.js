@@ -119,9 +119,13 @@ $(document).on("click",'.commentverify',function(event){
 });
 $(document).on("click",'.commentdelete',function(event){
 	event.preventDefault();
-	$.post(globalpath+"/admin/deletecomment/"+$(this).attr('data-id'),function(){
-		window.location.reload();
-	});
+	var r=confirm('Are you sure ?\n ok to continue');
+	if(r==true)
+	{
+		$.post(globalpath+"/admin/deletecomment/"+$(this).attr('data-id'),function(){
+			window.location.reload();
+		});
+	}
 });
 
 $(document).on("focus","#eventdate",function(){
@@ -142,10 +146,25 @@ $(document).on("click",'.userverify',function(event){
 		window.location.reload();
 	});
 });
+$(document).on("click",'.userdelete',function(event){
+	event.preventDefault();
+	var r=confirm('Are you sure ?\n ok to continue');
+	if(r==true)
+	{
+		$.post(globalpath+"/admin/userdelete/"+$(this).attr('data-id'),function(){
+			alertify.error("success ! User verified");
+			window.location.reload();
+		});
+	}
+});
 
 
 $(document).on("change","#changeimagebyyear",function(){
+	$("#links").html('');
+	$("#links").addClass('loading');
+
 	$.post(globalpath+"/image",{'yr':$(this).val()},function(data){
+		$("#links").removeClass('loading');
 		$("#links").html(data);
 	});
 });
@@ -159,7 +178,67 @@ $(document).on("click",'.verifyforum',function(event){
 });
 $(document).on("click",'.deleteforum',function(event){
 	event.preventDefault();
-	$.post(globalpath+"/admin/deleteforum/"+$(this).attr('data-id'),function(){
+	var r=confirm('Are you sure ?\n ok to continue');
+	if(r==true)
+	{
+		$.post(globalpath+"/admin/deleteforum/"+$(this).attr('data-id'),function(){
+			window.location.reload();
+		});
+	}
+});
+$(document).on("click",'.verifyfaq',function(event){
+	event.preventDefault();
+	var trdel=$(this);
+	$.post(globalpath+"/admin/verifyfaq/"+$(this).attr('data-id'),function(){
+		//trdel.parents('tr').remove();
+		//alert("done");
 		window.location.reload();
 	});
 });
+$(document).on("click",'.deletefaq',function(event){
+	event.preventDefault();
+	var r=confirm('Are you sure ?\n ok to continue');
+	if(r==true)
+	{
+		$.post(globalpath+"/admin/deletefaq/"+$(this).attr('data-id'),function(){
+			window.location.reload();
+		});
+	}
+});
+$(document).on("click",'.verifypost',function(event){
+	event.preventDefault();
+	var trdel=$(this);
+	$.post(globalpath+"/admin/verifypost/"+$(this).attr('data-id'),function(){
+		//trdel.parents('tr').remove();
+		//alert("done");
+		window.location.reload();
+	});
+});
+$(document).on("click",'.deletepost',function(event){
+	event.preventDefault();
+	var r=confirm('Are you sure ?\n ok to continue');
+	if(r==true)
+	{
+		$.post(globalpath+"/admin/deletepost/"+$(this).attr('data-id'),function(){
+			window.location.reload();
+		});
+	}
+
+});
+
+
+
+$(document).on("click",'.deleteevents',function(event){
+	event.preventDefault();
+	var r=confirm('Are you sure ?\n ok to continue');
+	if(r==true)
+	{
+		$.post(globalpath+"/admin/deleteevents/"+$(this).attr('data-id'),function(){
+			window.location.reload();
+		});
+	}
+
+});
+
+
+

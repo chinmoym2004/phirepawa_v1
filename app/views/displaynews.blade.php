@@ -1,5 +1,5 @@
 <div>
-	{{$getnews->news}}
-	{{$getnews->newsdesc}}
-	{{$getnews->news_date}}
+	{{$getnews->news}}<br/>
+	{{$getnews->newsdesc}}<br/>
+	{{$getnews->news_date}}<br/>
 </div>

@@ -226,6 +226,7 @@ a , a:hover, a:focus{
 #links{
     padding-top: 10px;
 padding-bottom: 15px;
+min-height: 100px;
 }
 #links a img {
     height: 150px;
@@ -308,4 +309,11 @@ box-sizing: border-box;
 
 .active{
     background: #DAD9D0;
+}
+
+.loading
+{
+    background : url('../img/loading.gif') no-repeat top;
+    background-position: center;
+    z-index: 1;
 }

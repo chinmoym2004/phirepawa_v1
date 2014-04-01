@@ -1,5 +1,6 @@
 <a href="{{url('admin/dashboard')}}" title="Go to Dahboard" class="operation pull-left"><span class="glyphicon glyphicon-chevron-left"></span></a><br>
-        <h4>Post not yet verified</h4>
+        @if(count($noofpost))
+        <h4>Verified Post</h4>
         <div class="table-responsive">
           <table class="table">
             <tr>
@@ -14,10 +15,14 @@
                 <td>{{$post->title}}</td>
                 <td>{{$post->postedon}}</td>
                 <td>
-                    <a href="{{url('admin/delete/'.$post->blogid)}}" data-id="{{$post->blogid}}" title="Delete This Post" class="operation"><span class="glyphicon glyphicon-remove-circle"></span></a>
+                    <a href="{{url('admin/delete/'.$post->blogid)}}" data-id="{{$post->blogid}}" title="Delete This Post" class="operation deletepost"><span class="glyphicon glyphicon-remove-circle"></span></a>
                     
                 </td>
               </tr>
             @endforeach
           </table>
         </div>
+        <?php echo $noofpost->links(); ?>
+        @else
+          <span>No appproved POst available</span>
+        @endif

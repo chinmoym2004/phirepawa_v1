@@ -13,17 +13,10 @@
     $getlastyearpics=Gallery::where('eyear','=',$getbyyear[0]->eyear)->get();
     ?>
     @foreach($getlastyearpics as $val)
-        <a href="{{URL::asset('galleryimage/'.$val->fname)}}" title="{{$val->filetitle}}" data-gallery>
-            <img src="{{URL::asset('galleryimage/'.$val->fname)}}" alt="{{$val->filetitle}}">
+        <a href="{{url('galleryimage/'.$val->fname)}}" title="{{$val->filetitle}}" data-gallery>
+            <img src="{{url('galleryimage/'.$val->fname)}}" alt="{{$val->filetitle}}">
         </a>
     @endforeach
-    
-   <!--  <a href="{{URL::asset('assets_files/images/slider2.jpg')}}" title="Apple" data-gallery>
-        <img src="{{URL::asset('assets_files/images/slider2.jpg')}}" alt="Apple">
-    </a>
-    <a href="{{URL::asset('assets_files/images/slider3.jpg')}}" title="Orange" data-gallery>
-        <img src="{{URL::asset('assets_files/images/slider3.jpg')}}" alt="Orange">
-    </a> -->
 
 </div>
 <!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->

@@ -5,25 +5,25 @@
           <div class="form-group">
             <label for="" class="col-sm-3 control-label">Email</label>
             <div class="col-sm-6">
-              <input type="email" class="form-control" placeholder="Email" name="email">
+              <input type="email" class="form-control" placeholder="Email" name="email" required>
             </div>
           </div>
           <div class="form-group">
             <label for="" class="col-sm-3 control-label">First Name</label>
             <div class="col-sm-6">
-              <input type="text" class="form-control" placeholder="First name" name="firstname">
+              <input type="text" class="form-control" placeholder="First name" name="firstname" required>
             </div>
           </div>
           <div class="form-group">
             <label for="" class="col-sm-3 control-label">Last Name</label>
             <div class="col-sm-6">
-              <input type="text" class="form-control" placeholder="Last Name" name="lastname">
+              <input type="text" class="form-control" placeholder="Last Name" name="lastname" required>
             </div>
           </div>
           <div class="form-group">
             <label for="" class="col-sm-3 control-label">Registration no</label>
             <div class="col-sm-6">
-              <input type="text" class="form-control" placeholder="Registartion no" name="regno" autocomplete="off">
+              <input type="text" class="form-control" placeholder="Registartion no" name="regno" autocomplete="off" required>
             </div>
           </div>
           <div class="form-group">
@@ -77,7 +77,7 @@
           </div> -->
           <div class="form-group">
             <div class="col-sm-offset-3 col-sm-4">
-              <button type="submit" class="btn btn-default">Create User</button>
+              <button type="submit" class="btn btn-default">SignUp</button>
             </div>
           </div>
         </form>

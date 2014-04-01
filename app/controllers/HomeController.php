@@ -31,7 +31,7 @@ class HomeController extends BaseController {
 	}
 
 	public function aboutus(){
-		$getAbout=DB::table('siteinfo')->get();
+		$getAbout=DB::table('siteinfo')->where('context_type','=','aboutus')->get();
 		$data=array('getAbout'=>$getAbout);
 		$this->layout->content = View::make('aboutus',$data);
 	}
@@ -72,15 +72,15 @@ class HomeController extends BaseController {
 		$tmp='';
 		foreach($getlastyearpics as $val)
 		{
-        	$tmp.='<a href="'.public_path().'/galleryimage/'.$val->fname.'" title="'.$val->filetitle.'" data-gallery>
-            <img src="'.public_path().'/galleryimage/'.$val->fname.'" alt="'.$val->filetitle.'"></a>';
+        	$tmp.='<a href="galleryimage/'.$val->fname.'" title="'.$val->filetitle.'" data-gallery>
+            <img src="galleryimage/'.$val->fname.'" alt="'.$val->filetitle.'"></a>';
     	}
     	return $tmp;
 	}
 
 	public function news()
 	{
-		$getallnews=News::paginate(3);
+		$getallnews=News::orderBy('updated_at','DESC')->paginate(5);
 		$data=array(
 			'getallnews'=>$getallnews
 		);

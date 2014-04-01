@@ -12,6 +12,7 @@
  -->	<link href="{{URL::asset('assets_files/css/alertify.css')}}" rel="stylesheet" type="text/css" />
 	<link rel="stylesheet" href="{{URL::asset('assets_files/css/blueimp-gallery.min.css')}}">
 	<link href="{{URL::asset('assets_files/css/bootstrap-image-gallery.css')}}" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="{{ URL::asset('assets_files/css/alertify.css')}}">
 
 </head>
 <body>
@@ -38,16 +39,16 @@
 		          </ul>
 		         @else
 		         	<ul>
-		         	@if(Auth::user()->usertype=='admin')
+		         	@if(Auth::user()->usertype=='admin'||Auth::user()->usertype=='super')
 			         	<li>
 			            	<a href="{{url('admin')}}" target="_blank"><span>Admin panel</span>
 			            		</a>
 			            </li>
 		            @endif
-		            <li>
+		            <!-- <li>
 		            	<a href="{{url('myprofile')}}"><span>My Profile</span>
 		            		</a>
-		            </li>
+		            </li> -->
 		            <li>
 		            	<a href="#"><span>Batch Coordinators</span>
 		            	</a>
@@ -88,10 +89,58 @@
 				              </ul>
 				            </li> -->
 	  					<li><a href="{{url('gallery')}}"><!-- <i class="glyphicon glyphicon-picture">&nbsp;</i>-->Gallery</a></li>
-						<li><a href="{{url('blog')}}"><!-- <i class="glyphicon glyphicon-book">&nbsp; </i>-->Blog</a></li>
-						<li><a href="{{url('faq')}}"><!-- <i class="glyphicon glyphicon-question-sign">&nbsp; --></i>FAQ</a></li>
+						
+	  					
+	  					@if(!Auth::check())
+		  					<li>
+		  						<a href="{{url('blog')}}"><!-- <i class="glyphicon glyphicon-picture">&nbsp;</i>-->Blog</a>
+		  					</li>
+	  					@else
+		  					<li class="dropdown">
+				        	<a href="{{url('blog')}}" class="dropdown-toggle" data-toggle="dropdown">Blog<b class="caret"></b></a>
+				              <ul class="dropdown-menu">
+				                <li><a href="{{url('blog')}}">All Blog</a></li>
+				                <li><a href="{{url('blog/new')}}">Post New</a></li>
+				                <li><a href="{{url('blog/mycontent')}}">My All Blog Post</a></li>
+				              </ul>
+				            </li>
+			            @endif
+
+			            @if(!Auth::check())
+		  					<li>
+		  						<a href="{{url('faq')}}"><!-- <i class="glyphicon glyphicon-picture">&nbsp;</i>-->Faq</a>
+		  					</li>
+	  					@else
+		  					<li class="dropdown">
+				        	<a href="{{url('faq')}}" class="dropdown-toggle" data-toggle="dropdown">Faq<b class="caret"></b></a>
+				              <ul class="dropdown-menu">
+				              	<li><a href="{{url('faq')}}">All Faq</a></li>
+				                <li><a href="{{url('faq/new')}}">Post New</a></li>
+				                <li><a href="{{url('faq/mycontent')}}">My All Faq Post</a></li>
+				              </ul>
+				            </li>
+			            @endif
+
+
+			            @if(!Auth::check())
+		  					<li>
+		  						<a href="{{url('forum')}}"><!-- <i class="glyphicon glyphicon-picture">&nbsp;</i>-->Forum</a>
+		  					</li>
+	  					@else
+		  					<li class="dropdown">
+				        	<a href="{{url('forum')}}" class="dropdown-toggle" data-toggle="dropdown">Forum<b class="caret"></b></a>
+				              <ul class="dropdown-menu">
+				              	<li><a href="{{url('forum')}}">All Forum</a></li>
+				                <li><a href="{{url('forum/new')}}">Post New</a></li>
+				                <li><a href="{{url('forum/mycontent')}}">My All Forum Topics</a></li>
+				              </ul>
+				            </li>
+			            @endif
+
+						
+						<!-- <li><a href="{{url('')}}"><i class="glyphicon glyphicon-question-sign">&nbsp;</i>FAQ</a></li> -->
 						<li><a href="{{url('news')}}"><!-- <i class="glyphicon glyphicon-home">&nbsp;</i> -->News</a></li>
-						<li><a href="{{url('forum')}}"><!-- <i class="glyphicon glyphicon-home">&nbsp;</i> -->Forum</a></li>
+						<!-- <li><a href="{{url('forum')}}"><i class="glyphicon glyphicon-home">&nbsp;</i>Forum</a></li> -->
 						<li><a href="{{url('contactus')}}"><!-- <i class="glyphicon glyphicon-link">&nbsp;</i> -->Contact US</a></li> 
 			          </ul>
 			        </div><!--/.nav-collapse -->
